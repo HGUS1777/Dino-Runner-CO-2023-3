@@ -5,6 +5,6 @@ if __name__ == "__main__":
     game.run()
     print("hello there...")
 
-    #TAREA : AGREGAR OTRO TIPO DE OBSTACULO ==> CACTUS GARNDE
-    #                                       ==> AVE, TIENE QUE VOLAR
+    #TAREA : AGREGAR OTRO TIPO DE OBSTACULO ==> CACTUS GARNDE   X
+    #                                       ==> AVE, TIENE QUE VOLAR  
     #                                       ==> CADA QUE MUERE MOSTRAR EL DINOSAURIO MUERTO ANTES DE CERRARSE

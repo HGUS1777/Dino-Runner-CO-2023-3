@@ -4,6 +4,7 @@ from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, T
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.cloud import Cloud
 from dino_runner.components.obstacles.obstacle_manager import ObstacleMnager  
+from dino_runner.components.obstacles.bird import Bird 
 
 class Game:
     def __init__(self):
@@ -17,10 +18,10 @@ class Game:
         self.x_pos_bg = 0
         self.y_pos_bg = 380
         self.player = Dinosaur()
-        self.cloud = Cloud(1,0,1080,300)
-        self.cloud_1 = Cloud(1,0,1240,260)
-        self.cloud_2 = Cloud(1.5,1,1080,50)
-        self.cloud_3 = Cloud(1.5,2,1980,100)
+        self.cloud = Cloud(1,0,1080)
+        self.cloud_1 = Cloud(1,0,1380)
+        self.cloud_2 = Cloud(1.5,1,1280)
+        self.cloud_3 = Cloud(1.5,2,1980)
         self.obstacle_Manager = ObstacleMnager()
 
     def run(self):
@@ -39,6 +40,7 @@ class Game:
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
+        
         self.obstacle_Manager.update(self.game_speed,self.player)
         if self.player.dino_dead:
             self.playing = False
@@ -47,10 +49,10 @@ class Game:
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
-        self.cloud.new_cloud(self.screen)
-        self.cloud_1.new_cloud(self.screen)
-        self.cloud_2.new_cloud(self.screen)
-        self.cloud_3.new_cloud(self.screen)
+        self.cloud.new_cloud_low(self.screen)
+        self.cloud_1.new_cloud_low(self.screen)
+        self.cloud_2.new_cloud_high(self.screen)
+        self.cloud_3.new_cloud_high(self.screen)
         self.obstacle_Manager.draw(self.screen)
         self.player.draw(self.screen)
         pygame.display.update()
