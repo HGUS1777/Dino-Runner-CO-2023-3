@@ -1,35 +1,29 @@
 import pygame
 
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, CLOUD
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
 from dino_runner.components.dinosaur import Dinosaur
+from dino_runner.components.cloud import Cloud
+from dino_runner.components.obstacles.obstacle_manager import ObstacleMnager  
 
 class Game:
-    FINAL = -500
     def __init__(self):
         pygame.init()
         pygame.display.set_caption(TITLE)
         pygame.display.set_icon(ICON)
-        self.image_cloud = CLOUD[0]
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.playing = False
         self.game_speed = 20
         self.x_pos_bg = 0
         self.y_pos_bg = 380
-        self.speed_cloud_1 = 1
-        self.x_pos_cloud_1 = 1080
-        self.x_pos_cloud_3 = 1240
-        self.y_pos_cloud_1 = 300
-        self.y_pos_cloud_3 = 260
-        self.speed_cloud_2 = 2
-        self.x_pos_cloud_2 = 1080
-        self.x_pos_cloud_4 = 1980
-        self.y_pos_cloud_2 = 50
-        self.y_pos_cloud_4 = 100
         self.player = Dinosaur()
+        self.cloud = Cloud(1,0,1080,300)
+        self.cloud_1 = Cloud(1,0,1240,260)
+        self.cloud_2 = Cloud(1.5,1,1080,50)
+        self.cloud_3 = Cloud(1.5,2,1980,100)
+        self.obstacle_Manager = ObstacleMnager()
 
     def run(self):
-        # Game loop: events - update - draw
         self.playing = True
         while self.playing:
             self.events()
@@ -45,12 +39,19 @@ class Game:
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
+        self.obstacle_Manager.update(self.game_speed,self.player)
+        if self.player.dino_dead:
+            self.playing = False
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
-        self.draw_cloud()
+        self.cloud.new_cloud(self.screen)
+        self.cloud_1.new_cloud(self.screen)
+        self.cloud_2.new_cloud(self.screen)
+        self.cloud_3.new_cloud(self.screen)
+        self.obstacle_Manager.draw(self.screen)
         self.player.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
@@ -63,33 +64,3 @@ class Game:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
-
-    def draw_cloud(self):
-        #cloud 1
-        image_width_cloud_1 = self.image_cloud.get_width()
-        self.screen.blit(self.image_cloud, (image_width_cloud_1 + self.x_pos_cloud_1, self.y_pos_cloud_1))
-        if self.x_pos_cloud_1 <= self.FINAL:
-            self.screen.blit(self.image_cloud, (image_width_cloud_1 + self.x_pos_cloud_1, self.y_pos_cloud_1))
-            self.x_pos_cloud_1 = 1000
-        self.x_pos_cloud_1 -= self.speed_cloud_1
-        #cloud 3
-        image_width_cloud_3 = self.image_cloud.get_width()
-        self.screen.blit(self.image_cloud, (image_width_cloud_3 + self.x_pos_cloud_3, self.y_pos_cloud_3))
-        if self.x_pos_cloud_3 <= self.FINAL:
-            self.screen.blit(self.image_cloud, (image_width_cloud_3 + self.x_pos_cloud_3, self.y_pos_cloud_3))
-            self.x_pos_cloud_3 = 1000
-        self.x_pos_cloud_3 -= self.speed_cloud_1
-        #cloud 2
-        image_width_cloud_2 = self.image_cloud.get_width()
-        self.screen.blit(self.image_cloud, (image_width_cloud_2 + self.x_pos_cloud_2, self.y_pos_cloud_2))
-        if self.x_pos_cloud_2 <= self.FINAL:
-            self.screen.blit(self.image_cloud, (image_width_cloud_2 + self.x_pos_cloud_2, self.y_pos_cloud_2))
-            self.x_pos_cloud_2 = 1000
-        self.x_pos_cloud_2 -= self.speed_cloud_2
-        #cloud 4
-        image_width_cloud_4 = self.image_cloud.get_width()
-        self.screen.blit(self.image_cloud, (image_width_cloud_4 + self.x_pos_cloud_4, self.y_pos_cloud_4))
-        if self.x_pos_cloud_4 <= self.FINAL:
-            self.screen.blit(self.image_cloud, (image_width_cloud_4 + self.x_pos_cloud_4, self.y_pos_cloud_4))
-            self.x_pos_cloud_4 = 1000
-        self.x_pos_cloud_4 -= self.speed_cloud_2
