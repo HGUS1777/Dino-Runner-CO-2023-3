@@ -20,7 +20,6 @@ class ObstacleMnager:
                     self.index += 1
             obstacle.update(game_speed,player)
             
-        print(self.index )
     def draw(self,screen):
         for obstacle in self.obstacles:
             obstacle.draw(screen)

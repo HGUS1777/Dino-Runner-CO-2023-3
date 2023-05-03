@@ -1,5 +1,5 @@
 from dino_runner.utils.constants import (JUMPING,RUNNING,DUCKING,RUNNING_SHIELD,DUCKING_SHIELD, JUMPING_SHIELD,
-                                        DEFAULT_TYPE, SHIELD_TYPE)
+                                        DEFAULT_TYPE, SHIELD_TYPE,DEAD)
 import pygame
 
 class Dinosaur:
@@ -34,6 +34,7 @@ class Dinosaur:
             self.duck()
         if self.dino_run:
             self.run()
+
         if user_input[pygame.K_s] and not self.dino_jump:
             self.dino_run = False
             self.dino_duck = True
@@ -84,6 +85,9 @@ class Dinosaur:
             self.dino_jump = False
             self.jump_vel = self.JUMP_VEL
 
+    def dead(self):
+        self.image = DEAD
+        
     def set_power_up(self, power_up):
         if power_up.type == SHIELD_TYPE:
             self.type = SHIELD_TYPE

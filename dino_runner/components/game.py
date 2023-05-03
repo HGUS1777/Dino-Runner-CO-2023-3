@@ -5,7 +5,6 @@ from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, T
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.cloud import Cloud
 from dino_runner.components.obstacles.obstacle_manager import ObstacleMnager  
-from dino_runner.components.obstacles.bird import Bird 
 
 
 class Game:
@@ -49,7 +48,8 @@ class Game:
         self.obstacle_Manager.update(self.game_speed,self.player)
         if self.player.dino_dead:
             self.playing = False
-
+            
+            
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
