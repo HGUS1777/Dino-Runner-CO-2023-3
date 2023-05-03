@@ -8,3 +8,4 @@ if __name__ == "__main__":
     #TAREA : AGREGAR OTRO TIPO DE OBSTACULO ==> CACTUS GARNDE   X
     #                                       ==> AVE, TIENE QUE VOLAR  
     #                                       ==> CADA QUE MUERE MOSTRAR EL DINOSAURIO MUERTO ANTES DE CERRARSE
+    #tarea implementar el martillo  aleatorio el power up de amtillo y shield
