@@ -1,5 +1,5 @@
 from dino_runner.utils.constants import (JUMPING,RUNNING,DUCKING,RUNNING_SHIELD,DUCKING_SHIELD, JUMPING_SHIELD,
-                                        DEFAULT_TYPE, SHIELD_TYPE,DEAD)
+                                        DEFAULT_TYPE, SHIELD_TYPE,HAMMER_TYPE,RUNNING_HAMMER,JUMPING_HAMMER,DUCKING_HAMMER,DEAD)
 import pygame
 
 class Dinosaur:
@@ -10,9 +10,9 @@ class Dinosaur:
     JUMP_VEL_TWO = 6.5
 
     def __init__(self):
-        self.run_img = {DEFAULT_TYPE: RUNNING,SHIELD_TYPE: RUNNING_SHIELD}
-        self.duck_img = {DEFAULT_TYPE: DUCKING,SHIELD_TYPE: DUCKING_SHIELD}
-        self.jump_img = {DEFAULT_TYPE: JUMPING,SHIELD_TYPE: JUMPING_SHIELD}
+        self.run_img = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD, HAMMER_TYPE:RUNNING_HAMMER}
+        self.duck_img = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD, HAMMER_TYPE:DUCKING_HAMMER}
+        self.jump_img = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD, HAMMER_TYPE:JUMPING_HAMMER}
         self.type = DEFAULT_TYPE
         self.image = self.run_img[self.type][0]
         self.dino_rect = self.image.get_rect()
@@ -39,12 +39,12 @@ class Dinosaur:
             self.dino_run = False
             self.dino_duck = True
             self.dino_jump = False
-        elif user_input[pygame.K_w] and not self.dino_jump :
+        elif user_input[pygame.K_SPACE] or user_input[pygame.K_w] and not self.dino_jump :
             self.twojump =  False
             self.dino_run = False
             self.dino_duck = False
             self.dino_jump = True
-        elif user_input[pygame.K_q] and self.dino_jump:
+        elif user_input[pygame.K_q ] and self.dino_jump:
             self.twojump = True
         elif not self.dino_jump:
             self.dino_run = True
@@ -86,8 +86,17 @@ class Dinosaur:
             self.jump_vel = self.JUMP_VEL
 
     def dead(self):
-        self.image = DEAD
-        
+        if self.dino_duck:
+            self.dino_rect.y = self.Y_POS - 6
+            self.image = DEAD
+        else:    
+            self.image = DEAD
+
     def set_power_up(self, power_up):
         if power_up.type == SHIELD_TYPE:
             self.type = SHIELD_TYPE
+            print(power_up.type)
+        elif power_up.type == HAMMER_TYPE:
+            self.type = HAMMER_TYPE
+        elif power_up.type == DEFAULT_TYPE:
+            self.type = DEFAULT_TYPE

@@ -23,7 +23,6 @@ class Obstacle:
         self.rect.x -= game_speed
         if self.rect.colliderect(player.dino_rect):
             player.dead()
-            pygame.time.delay(2000)
             player.dino_dead = True
 
             

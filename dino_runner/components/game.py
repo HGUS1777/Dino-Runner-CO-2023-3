@@ -33,8 +33,9 @@ class Game:
             self.events()
             self.update()
             self.draw()
+        pygame.time.delay(2000)
         pygame.quit()
-
+        
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -48,6 +49,8 @@ class Game:
         self.obstacle_Manager.update(self.game_speed,self.player)
         if self.player.dino_dead:
             self.playing = False
+            
+            
             
             
     def draw(self):
