@@ -15,7 +15,7 @@ class Game:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.playing = False #estado para jugar
-        self.runnung = False #estado para mostrar el menu
+        self.running = False #estado para mostrar el menu
         self.game_speed = 20
         self.x_pos_bg = 0
         self.y_pos_bg = 380
@@ -38,8 +38,8 @@ class Game:
         
 
     def run(self):
-        self.playing = True
-        while self.playing:
+        self.running = True
+        while self.running:
             self.events()
             self.update()
             self.draw()
@@ -72,14 +72,15 @@ class Game:
             self.clock.tick(FPS)
             self.screen.fill((255, 255, 255))
             self.draw_background()
-            self.point() #se llama metodo para mostrar puntos en pantalla
             self.cloud.new_cloud_low(self.screen)
             self.cloud_1.new_cloud_low(self.screen)
             self.cloud_2.new_cloud_high(self.screen)
             self.cloud_3.new_cloud_high(self.screen)
             self.obstacle_Manager.draw(self.screen)
+            self.point() #se llama metodo para mostrar puntos en pantalla
             self.player.draw(self.screen)
             self.power_up_manager.draw(self.screen)
+
         else:#cuando no se esta jugando
             self.draw_menu()
         pygame.display.update()
@@ -97,7 +98,6 @@ class Game:
     def draw_menu(self):
         white_color = (255,255,255)
         self.screen.fill(white_color)
-
         if self.death_count == 0:
             text,text_rect = text_util.get_message('Press any key to start', 30)
             self.screen.blit(text, text_rect)

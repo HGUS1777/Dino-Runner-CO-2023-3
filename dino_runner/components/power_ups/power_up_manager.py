@@ -9,19 +9,22 @@ class PowerUpManager:
         self.index = 0
         self.random = random.randint(1,3)
     def update(self,game_speed,points, player):
+        
+        
         if len(self.power_ups) == 0 and points % 200 == 0:
             self.power_ups.append(self.change)
         
         for power_up in self.power_ups:
             if power_up.used or power_up.rect.x < -power_up.rect.width:
+                self.random = random.randint(1,3)
                 self.power_ups.remove(power_up)
                 if self.random == 2:
                     self.change = Hammer()
                     self.index += 1
-                else:
+                if self.random == 1:
                     self.change = Shield()
                     self.index += 1
-
+                print(self.random)
             if power_up.used:
                 player.set_power_up(power_up)
             power_up.update(game_speed,player)
