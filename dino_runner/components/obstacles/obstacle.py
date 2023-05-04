@@ -1,4 +1,3 @@
-import pygame
 from dino_runner.utils.constants import BIRD
 from dino_runner.utils.constants import SCREEN_WIDTH
 
@@ -19,10 +18,10 @@ class Obstacle:
             self.step_index += 1
             if self.step_index >= 10:
                 self.step_index = 0
-
         self.rect.x -= game_speed
         if self.rect.colliderect(player.dino_rect):
-            player.dead()
-            player.dino_dead = True
+            if not player.shield:
+                player.dead()
+                player.dino_dead = True
 
             

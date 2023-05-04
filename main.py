@@ -5,4 +5,4 @@ if __name__ == "__main__":
     game.run()
     print("hello there...")
   
-    #tarea implementar el martillo  aleatorio el power up de amtillo y shield
+ 

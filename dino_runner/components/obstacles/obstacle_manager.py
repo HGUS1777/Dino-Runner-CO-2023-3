@@ -6,13 +6,13 @@ class ObstacleMnager:
         self.obstacles = []
         self.index = 0
         self.change = Cactus()
-    def update(self,game_speed, player):
+    def update(self,game_speed, player, points):
         if len(self.obstacles) == 0:
                 self.obstacles.append(self.change)
         for obstacle in self.obstacles:
             if obstacle.rect.x < - obstacle.rect.width:
                 self.obstacles.remove(obstacle)
-                if self.index % 2 == 0:
+                if self.index % 2 == 0 and points > 500:
                     self.change = Bird()
                     self.index += 1
                 else:
