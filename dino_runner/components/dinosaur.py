@@ -1,6 +1,7 @@
 from dino_runner.utils.constants import (JUMPING,RUNNING,DUCKING,RUNNING_SHIELD,DUCKING_SHIELD, JUMPING_SHIELD,
                                         DEFAULT_TYPE, SHIELD_TYPE,HAMMER_TYPE,RUNNING_HAMMER,JUMPING_HAMMER,DUCKING_HAMMER,DEAD)
 import pygame
+from dino_runner.components import text_util
 
 class Dinosaur:
     X_POS = 80
@@ -28,7 +29,9 @@ class Dinosaur:
         self.dino_dead = False
         self.shield = False
         self.hammer = False
+        self.time_to_show = 0
         self.time_up_power_up = 0
+        self.destroyed = False # bandera para el martillo determina cuando destruyo un obstaculo
 
     def update(self, user_input):
         if self.dino_jump:
@@ -57,18 +60,19 @@ class Dinosaur:
             self.step_index = 0
         
         if self.shield:
-            time_to_show = round((self.time_up_power_up - pygame.time.get_ticks())/1000, 2)
-            if time_to_show < 0:
+            self.time_to_show = round((self.time_up_power_up - pygame.time.get_ticks())/1000, 2)
+            if self.time_to_show < 0:
                 self.reset()
-                
+               
         if self.hammer:
-            time_to_show = round((self.time_up_power_up - pygame.time.get_ticks())/1000, 2)
-            if time_to_show < 0:
+            self.time_to_show = round((self.time_up_power_up - pygame.time.get_ticks())/1000, 2)
+            if self.time_to_show < 0:
                 self.reset()
 
+
     def draw(self,screen):
-        screen.blit(self.image, self.dino_rect)  
-    
+        screen.blit(self.image, self.dino_rect)
+
     def run(self):
         self.image = self.run_img[self.type][0] if self.step_index < 5 else self.run_img[self.type][1]
         self.dino_rect = self.image.get_rect()
@@ -111,16 +115,18 @@ class Dinosaur:
         if power_up.type == SHIELD_TYPE:
             self.type = SHIELD_TYPE
             self.shield = True
-            self.time_up_power_up = power_up.time_up
+            self.time_up_power_up = power_up.time_up 
 
         if power_up.type == HAMMER_TYPE:
             self.type = HAMMER_TYPE
             self.hammer = True
             self.time_up_power_up = power_up.time_up
+            self.destroyed = True #activa el martillo macahcador 
     
     def reset(self):
         self.type = DEFAULT_TYPE
         self.shield = False
         self.hammer = False
+        self.destroyed = False
         self.time_up_power_up = 0
         
